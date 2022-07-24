@@ -24,12 +24,12 @@ from PIL import Image, ImageDraw, ImageFont
 class PosterBuilder():
     colors = {
         'main': {
-            'reg': (255, 255, 255),
-            'local': (235, 227, 178),
+            'primary': (255, 255, 255),
+            'secondary': (235, 227, 178),
         },
         'accent': {
-            'org': (54, 105, 24),
-            'conv': (122, 74, 10),
+            'primary': (54, 105, 24),
+            'secondary': (122, 74, 10),
         },
         'font': {
             'black': (13, 13, 13),
@@ -57,7 +57,7 @@ class PosterBuilder():
         self.event_time: str = ''
         self.description: str = ''
         self.extra_info: str = ''
-        self.price: str = ''
+        self.admission_price: str = ''
         self.contact_email: str = ''
         self.contact_phone: str = ''
 
@@ -77,7 +77,7 @@ class PosterBuilder():
         artist_fnt = ImageFont.truetype('/Library/Fonts/NewYork.ttf', self.font_sizes['artist'])
         self.draw.text(artist_location, self.artist, fill=self.colors['font']['black'], anchor='ms', font=artist_fnt)
     
-    def draw_price(self):
+    def draw_admission_price(self):
         price_ftn = ImageFont.truetype('/Library/Fonts/NewYork.ttf', self.font_sizes['venue'])
         pass
 
@@ -116,14 +116,15 @@ class PosterBuilder():
     
     def get_colors(self) -> dict[str, tuple]:
         return {
-            'bg': self.colors['main']['local'] if self.is_local else self.colors['main']['reg'],
-            'accent': self.colors['accent']['org'] if self.is_organic else self.colors['accent']['conv'],
+            'bg': self.colors['main']['primary'],
+            'accent': self.colors['accent']['secondary'],
         }
 
 
 def main():
-    poster = PosterBuilder('Hot New Product', '$12.99', 'ea')
-    poster.is_local = True
+    poster = PosterBuilder()
+    poster.artist = 'Made by Robots'
+    poster.venue = 'Radio Bean'
     poster.make_poster()
     poster.draw_debug()
     poster.display()
